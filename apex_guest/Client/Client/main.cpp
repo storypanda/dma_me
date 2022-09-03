@@ -25,27 +25,28 @@ bool use_nvidia = true;
 bool active = true;
 bool ready = false;
 extern visuals v;
-int aim = 0; //read
+int aim = 2; //read
 bool esp = false; //read
 bool item_glow = false;
-bool player_glow = false;
-bool aim_no_recoil = true;
+bool player_glow = true;
+bool aim_no_recoil = false;
 bool aiming = false; //read
 uint64_t g_Base = 0; //write
 float max_dist = 200.0f * 40.0f; //read
-float smooth = 12.0f;
+float smooth = 90.0f;
 float max_fov = 15.0f;
-int bone = 2;
+int bone = 0;
 bool thirdperson = false;
 int spectators = 0; //write
 int allied_spectators = 0; //write
 bool chargerifle = false;
+int skinchanger = false;
 bool shooting = false; //read
 
 bool valid = false; //write
 bool next = false; //read write
 
-uint64_t add[20];
+uint64_t add[21];
 
 bool k_f5 = 0;
 bool k_f6 = 0;
@@ -121,7 +122,12 @@ void Overlay::RenderEsp()
 		}
 	}
 }
-
+void randomBone() {
+	int boneArray[2] = { 1, 2 };
+	int randVal = rand() % 2;
+	bone = boneArray[randVal];
+	Sleep(1250);
+}
 int main(int argc, char** argv)
 {
 	add[0] = (uintptr_t)&check;
@@ -144,6 +150,7 @@ int main(int argc, char** argv)
 	add[17] = (uintptr_t)&allied_spectators;
 	add[18] = (uintptr_t)&chargerifle;
 	add[19] = (uintptr_t)&shooting;
+	add[20] = (uintptr_t)&skinchanger;
 
 
 	printf(XorStr("add offset: 0x%I64x\n"), (uint64_t)&add[0] - (uint64_t)GetModuleHandle(NULL));
@@ -207,6 +214,28 @@ int main(int argc, char** argv)
 			k_f6 = 0;
 		}
 
+		if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
+			aim_no_recoil = true;
+			//smooth = 75.0f;
+			//max_fov = 10.0f;
+			//printf(XorStr("\rNORECOIL ENABLED "));
+		}
+		else {
+			aim_no_recoil = false;
+			//smooth = 50.0f;
+			//max_fov = 10.0f;
+			//printf(XorStr("\rNORECOIL DISABLED"));
+		}
+		if (IsKeyDown(VK_F10))
+		{
+			printf(XorStr("ENTER SKIN ID (1-20):"));
+			scanf("%d", &skinchanger);
+		}
+		if (IsKeyDown(VK_F9))
+		{
+			thirdperson = !thirdperson;
+		}
+
 		if (IsKeyDown(VK_F8) && k_f8 == 0)
 		{
 			k_f8 = 1;
@@ -232,7 +261,10 @@ int main(int argc, char** argv)
 		}
 
 		if (IsKeyDown(aim_key))
+		{
 			aiming = true;
+			randomBone();
+		}
 		else
 			aiming = false;
 
