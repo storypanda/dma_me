@@ -290,10 +290,10 @@ void DoActions()
 					tmp_chargerifle = false;
 				}
 			}
-			if (skinchanger)
+			/*if (skinchanger)
 			{
 				apex_mem.Write<int>(LocalPlayer + OFFSET_SKIN, static_cast<int>(skinchanger));
-			}
+			}*/
 		}
 	}
 	actions_t = false;
@@ -590,9 +590,9 @@ static void set_vars(uint64_t add_addr)
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t)*18, chargerifle_addr);
 	uint64_t shooting_addr = 0;
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t)*19, shooting_addr);
-	uint64_t skinchanger_addr = 0;
+	/*uint64_t skinchanger_addr = 0;
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 20, skinchanger_addr);
-	
+	*/
 
 	uint32_t check = 0;
 	client_mem.Read<uint32_t>(check_addr, check);
@@ -633,7 +633,7 @@ static void set_vars(uint64_t add_addr)
 			client_mem.Read<bool>(thirdperson_addr, thirdperson);
 			client_mem.Read<bool>(shooting_addr, shooting);
 			client_mem.Read<bool>(chargerifle_addr, chargerifle);
-			client_mem.Read<int>(skinchanger_addr, skinchanger);
+			//client_mem.Read<int>(skinchanger_addr, skinchanger);
 
 			if(esp && next)
 			{
