@@ -46,7 +46,7 @@ bool shooting = false; //read
 bool valid = false; //write
 bool next = false; //read write
 
-uint64_t add[20];
+uint64_t add[21];
 
 bool k_f5 = 0;
 bool k_f6 = 0;
@@ -150,7 +150,7 @@ int main(int argc, char** argv)
 	add[17] = (uintptr_t)&allied_spectators;
 	add[18] = (uintptr_t)&chargerifle;
 	add[19] = (uintptr_t)&shooting;
-	//add[20] = (uintptr_t)&skinchanger;
+	add[20] = (uintptr_t)&skinchanger;
 
 
 	printf(XorStr("add offset: 0x%I64x\n"), (uint64_t)&add[0] - (uint64_t)GetModuleHandle(NULL));
