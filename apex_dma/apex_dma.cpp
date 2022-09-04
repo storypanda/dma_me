@@ -63,6 +63,57 @@ typedef struct player
 	char name[33] = { 0 };
 }player;
 
+//struct kbutton_t {
+//	int down[2];
+//	int state;
+//};
+
+int tapstrafe = false;
+uint32_t air_flag = false;
+//kbutton_t forward_flag = false;
+
+//// Controls the game's state of kbutton_t instance.
+//struct InState {
+//	// The raw button state.
+//	kbutton_t button;
+//
+//	// True if the button is held down.
+//	bool state;
+//	// Set to true if the button should be overriden.
+//	bool force;
+//	// Force the button to be pressed.
+//	bool press;
+//	// Force the button to be released.
+//	bool release;
+//
+//	//void update(const GameProcess& process, uint32_t address)
+//	//{
+//	//	process.read(process.r5apex_exe + address, button);
+//	//	state = (button.state & 1) != 0;
+//	//}
+//	//void post(const GameProcess& process, uint32_t address)
+//	//{
+//	//	// If active get the most recent state of the button
+//	//	if (force && process.read(process.r5apex_exe + address, button)) {
+//	//		// Get the desired state of the button
+//	//		int state;
+//	//		if (press && !release) {
+//	//			state = 5; //0...0101
+//	//		}
+//	//		else if (!press && release) {
+//	//			state = 4;//0...0100
+//	//		}
+//	//		else {
+//	//			state = button.down[0] == 0 && button.down[1] == 0 ? 4 : 5;
+//	//		}
+//	//		// Gently tell the game to that nobody will be harmed if they just do as told
+//	//		if (button.state != state) {
+//	//			process.write(process.r5apex_exe + address + 8, state);
+//	//		}
+//	//	}
+//	//}
+//};
+
 struct Matrix
 {
 	float matrix[16];
@@ -143,6 +194,7 @@ void DoActions()
 		bool tmp_thirdperson = false;
 		bool tmp_chargerifle = false;
 		uint32_t counter = 0;
+		
 
 		while (g_Base!=0 && c_Base!=0)
 		{
@@ -294,6 +346,43 @@ void DoActions()
 			{
 				apex_mem.Write<int>(LocalPlayer + OFFSET_SKIN, static_cast<int>(skinchanger));
 			}
+			
+			apex_mem.Read<uint32_t>(LocalPlayer + OFFSET_m_fFlags, air_flag);
+			//when player is in air
+			if (!(air_flag & 0x1))
+			{
+				//1. air step
+				if (tapstrafe >= 0)
+				{
+					if (!tapstrafe)
+					{
+						//release forward key
+						apex_mem.Write<int>(LocalPlayer + OFFSET_IN_FORWARD + 8, static_cast<int>(4));
+					}
+					tapstrafe++;
+					if (tapstrafe >= 10)
+					{
+						tapstrafe = -1;
+						//hold forward key
+						apex_mem.Write<int>(LocalPlayer + OFFSET_IN_FORWARD + 8, static_cast<int>(5));
+					}
+				}
+			}
+			else
+			{
+				//2. hit ground step
+				if (tapstrafe < 0)
+				{
+					if (tapstrafe == -1)
+						apex_mem.Write<int>(LocalPlayer + OFFSET_IN_FORWARD + 8, static_cast<int>(5));
+					tapstrafe--;
+					if (tapstrafe <= -5)
+					{
+						tapstrafe = 0;
+					}
+				}
+			}
+
 		}
 	}
 	actions_t = false;
@@ -592,6 +681,8 @@ static void set_vars(uint64_t add_addr)
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t)*19, shooting_addr);
 	uint64_t skinchanger_addr = 0;
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 20, skinchanger_addr);
+	//uint64_t tapstrafe_addr = 0;
+	//client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 21, tapstrafe_addr);
 	
 
 	uint32_t check = 0;
@@ -634,6 +725,7 @@ static void set_vars(uint64_t add_addr)
 			client_mem.Read<bool>(shooting_addr, shooting);
 			client_mem.Read<bool>(chargerifle_addr, chargerifle);
 			client_mem.Read<int>(skinchanger_addr, skinchanger);
+			//client_mem.Read<int>(tapstrafe_addr, tapstrafe);
 
 			if(esp && next)
 			{

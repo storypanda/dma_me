@@ -51,6 +51,8 @@
     #define OFFSET_GLOW_ENABLE          0x3c8 //7 = enabled, 2 = disabled
     #define OFFSET_GLOW_THROUGH_WALLS   0x3d0 //2 = enabled, 5 = disabled
     #define OFFSET_SKIN			        0x0e48 //m_nSkin
+    #define OFFSET_m_fFlags             0x0098 //player is in air
+    #define OFFSET_IN_FORWARD           0x0759c0f8 //player is in forward
 
 #elif VERSION == ORIGIN
 
