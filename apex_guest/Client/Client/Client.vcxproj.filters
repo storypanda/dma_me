@@ -80,4 +80,10 @@
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="wav\tts (1).wav" />
+    <Media Include="wav\tts (2).wav" />
+    <Media Include="wav\tts (3).wav" />
+    <Media Include="wav\tts.wav" />
+  </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 #include "main.h"
+#include "resource.h"
+#pragma comment(lib, "winmm")
 
 typedef struct player
 {
@@ -40,11 +42,14 @@ bool thirdperson = false;
 int spectators = 0; //write
 int allied_spectators = 0; //write
 bool chargerifle = false;
-int skinchanger = false;
+int skinchanger = 0;
 bool shooting = false; //read
 
 bool valid = false; //write
 bool next = false; //read write
+
+bool recoil = false;
+int recoil_level = 0;
 
 uint64_t add[21];
 
@@ -97,24 +102,24 @@ void Overlay::RenderEsp()
 						}
 					}
 
-					if(v.line)
-						DrawLine(ImVec2((float)(getWidth() / 2), (float)getHeight()), ImVec2(players[i].b_x, players[i].b_y), BLUE, 1); //LINE FROM MIDDLE SCREEN
+					//if(v.line)
+					//	DrawLine(ImVec2((float)(getWidth() / 2), (float)getHeight()), ImVec2(players[i].b_x, players[i].b_y), BLUE, 1); //LINE FROM MIDDLE SCREEN
 
-					if (v.distance)
-					{
-						if (players[i].knocked)
-							String(ImVec2(players[i].boxMiddle, (players[i].b_y + 1)), RED, distance.c_str());  //DISTANCE
-						else
-							String(ImVec2(players[i].boxMiddle, (players[i].b_y + 1)), GREEN, distance.c_str());  //DISTANCE
-					}
+					//if (v.distance)
+					//{
+					//	if (players[i].knocked)
+					//		String(ImVec2(players[i].boxMiddle, (players[i].b_y + 1)), RED, distance.c_str());  //DISTANCE
+					//	else
+					//		String(ImVec2(players[i].boxMiddle, (players[i].b_y + 1)), GREEN, distance.c_str());  //DISTANCE
+					//}
 
 					if(v.healthbar)
 						ProgressBar((players[i].b_x - (players[i].width / 2.0f) - 4), (players[i].b_y - players[i].height), 3, players[i].height, players[i].health, 100); //health bar
 					if (v.shieldbar)
 						ProgressBar((players[i].b_x + (players[i].width / 2.0f) + 1), (players[i].b_y - players[i].height), 3, players[i].height, players[i].shield, 125); //shield bar
 
-					if(v.name)
-						String(ImVec2(players[i].boxMiddle, (players[i].b_y - players[i].height - 15)), WHITE, players[i].name);
+					/*if(v.name)
+						String(ImVec2(players[i].boxMiddle, (players[i].b_y - players[i].height - 15)), WHITE, players[i].name);*/
 				}
 			}
 
@@ -127,6 +132,60 @@ void randomBone() {
 	int randVal = rand() % 2;
 	bone = boneArray[randVal];
 	Sleep(1250);
+}
+
+void playStateSound(int num)
+{
+	switch (num)
+	{
+	case 1:
+		PlaySound(LPWSTR(IDR_WAVE4), NULL, SND_RESOURCE | SND_ASYNC);
+		break;
+	case 2:
+		PlaySound(LPWSTR(IDR_WAVE1), NULL, SND_RESOURCE | SND_ASYNC);
+		break;
+	case 3:
+		PlaySound(LPWSTR(IDR_WAVE2), NULL, SND_RESOURCE | SND_ASYNC);
+		break;
+	case 4:
+		PlaySound(LPWSTR(IDR_WAVE3), NULL, SND_RESOURCE | SND_ASYNC);
+		break;
+	default:
+		break;
+	}
+}
+
+void CalRecoil(int level)
+{
+	switch (level)
+	{
+	case 0:
+		aim_no_recoil = false;
+		smooth = 100.0f;
+		max_fov = 10.0f;
+		playStateSound(level + 1);
+		break;
+	case 1:
+		aim_no_recoil = false;
+		smooth = 90.0f;
+		max_fov = 10.0f;
+		playStateSound(level + 1);
+		break;
+	case 2:
+		aim_no_recoil = true;
+		smooth = 85.0f;
+		max_fov = 13.0f;
+		playStateSound(level + 1);
+		break;
+	case 3:
+		aim_no_recoil = true;
+		smooth = 80.0f;
+		max_fov = 15.0f;
+		playStateSound(level + 1);
+		break;
+	default:
+		break;
+	}
 }
 int main(int argc, char** argv)
 {
@@ -215,44 +274,33 @@ int main(int argc, char** argv)
 		}
 
 		if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
-			if ((GetKeyState(VK_SCROLL) & 0x0001) != 0) {
-				aim_no_recoil = true;
-				smooth = 80.0f;
-				max_fov = 15.0f;
-				printf(XorStr("\rNORECOIL ENABLED, POWER MODE "));
-			}
-			else {
-				aim_no_recoil = true;
-				smooth = 85.0f;
-				max_fov = 12.0f;
-				printf(XorStr("\rNORECOIL DISABLED, NORMAL MODE"));
+			if (!recoil)
+			{
+				recoil = true;
+				recoil_level = recoil_level == 0 ? 3 : recoil_level - 1;
+				CalRecoil(recoil_level);
 			}
 		}
 		else {
-			if ((GetKeyState(VK_SCROLL) & 0x0001) != 0) {
-				aim_no_recoil = false;
-				smooth = 90.0f;
-				max_fov = 10.0f;
-				printf(XorStr("\rNORECOIL DISABLED, SLIENT MODE "));
-			}
-			else {
-				aim_no_recoil = false;
-				smooth = 100.0f;
-				max_fov = 10.0f;
-				printf(XorStr("\rNORECOIL DISABLED, NOOB MODE"));
+			if (recoil)
+			{
+				recoil = false;
+				recoil_level = recoil_level == 0 ? 3 : recoil_level - 1;
+				CalRecoil(recoil_level);
 			}
 		}
 
-		
-		/*if (IsKeyDown(VK_F10))
+		if (IsKeyDown(VK_F7))
 		{
-			printf(XorStr("ENTER SKIN ID (1-20):"));
-			scanf("%d", &skinchanger);
-		}*/
-		if (IsKeyDown(VK_F9))
+			/*printf(XorStr("ENTER SKIN ID (1-20):"));
+			scanf("%d", &skinchanger);*/
+			skinchanger = skinchanger >= 20 ? 1 : skinchanger + 1;
+			playStateSound(skinchanger % 4 == 0 ? 4 : (skinchanger % 4));
+		}
+		/*if (IsKeyDown(VK_F9))
 		{
 			thirdperson = !thirdperson;
-		}
+		}*/
 
 		if (IsKeyDown(VK_F8) && k_f8 == 0)
 		{

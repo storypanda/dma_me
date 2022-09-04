@@ -1,12 +1,11 @@
-// Script di risorse generato con Microsoft Visual C++.
+// Microsoft Visual C++ generated resource script.
 //
-
 #include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
-// Generato dalla risorsa TEXTINCLUDE 2.
+// Generated from the TEXTINCLUDE 2 resource.
 //
 #include "winres.h"
 
@@ -14,10 +13,35 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Risorse di Italiano (Italia)
+// 中文(简体，中国) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE 16, 1
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// WAVE
+//
+
+IDR_WAVE1               WAVE                    "wav\\tts (1).wav"
+
+IDR_WAVE2               WAVE                    "wav\\tts (2).wav"
+
+IDR_WAVE3               WAVE                    "wav\\tts (3).wav"
+
+IDR_WAVE4               WAVE                    "wav\\tts.wav"
+
+#endif    // 中文(简体，中国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 意大利语(意大利) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ITA)
+LANGUAGE LANG_ITALIAN, SUBLANG_ITALIAN
+#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -25,18 +49,18 @@ LANGUAGE 16, 1
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE  
+2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE  
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -44,7 +68,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Risorse di Italiano (Italia)
+#endif    // 意大利语(意大利) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -52,9 +76,10 @@ END
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
-// Generato dalla risorsa TEXTINCLUDE 3.
+// Generated from the TEXTINCLUDE 3 resource.
 //
 
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    // non APSTUDIO_INVOKED
+#endif    // not APSTUDIO_INVOKED
+
