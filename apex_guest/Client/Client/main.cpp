@@ -26,14 +26,14 @@ bool active = true;
 bool ready = false;
 extern visuals v;
 int aim = 2; //read
-bool esp = false; //read
-bool item_glow = false;
+bool esp = true; //read
+bool item_glow = true;
 bool player_glow = true;
-bool aim_no_recoil = false;
+bool aim_no_recoil = true;
 bool aiming = false; //read
 uint64_t g_Base = 0; //write
 float max_dist = 200.0f * 40.0f; //read
-float smooth = 90.0f;
+float smooth = 80.0f;
 float max_fov = 15.0f;
 int bone = 0;
 bool thirdperson = false;
@@ -215,17 +215,35 @@ int main(int argc, char** argv)
 		}
 
 		if ((GetKeyState(VK_CAPITAL) & 0x0001) != 0) {
-			aim_no_recoil = true;
-			//smooth = 75.0f;
-			//max_fov = 10.0f;
-			//printf(XorStr("\rNORECOIL ENABLED "));
+			if ((GetKeyState(VK_SCROLL) & 0x0001) != 0) {
+				aim_no_recoil = true;
+				smooth = 80.0f;
+				max_fov = 15.0f;
+				printf(XorStr("\rNORECOIL ENABLED, POWER MODE "));
+			}
+			else {
+				aim_no_recoil = true;
+				smooth = 85.0f;
+				max_fov = 12.0f;
+				printf(XorStr("\rNORECOIL DISABLED, NORMAL MODE"));
+			}
 		}
 		else {
-			aim_no_recoil = false;
-			//smooth = 50.0f;
-			//max_fov = 10.0f;
-			//printf(XorStr("\rNORECOIL DISABLED"));
+			if ((GetKeyState(VK_SCROLL) & 0x0001) != 0) {
+				aim_no_recoil = false;
+				smooth = 90.0f;
+				max_fov = 10.0f;
+				printf(XorStr("\rNORECOIL DISABLED, SLIENT MODE "));
+			}
+			else {
+				aim_no_recoil = false;
+				smooth = 100.0f;
+				max_fov = 10.0f;
+				printf(XorStr("\rNORECOIL DISABLED, NOOB MODE"));
+			}
 		}
+
+		
 		/*if (IsKeyDown(VK_F10))
 		{
 			printf(XorStr("ENTER SKIN ID (1-20):"));
