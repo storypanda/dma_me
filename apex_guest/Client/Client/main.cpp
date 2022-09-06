@@ -167,20 +167,20 @@ void CalRecoil(int level)
 		break;
 	case 1:
 		aim_no_recoil = false;
-		smooth = 90.0f;
+		smooth = 95.0f;
 		max_fov = 10.0f;
 		playStateSound(level + 1);
 		break;
 	case 2:
 		aim_no_recoil = true;
-		smooth = 85.0f;
-		max_fov = 13.0f;
+		smooth = 95.0f;
+		max_fov = 10.0f;
 		playStateSound(level + 1);
 		break;
 	case 3:
 		aim_no_recoil = true;
-		smooth = 80.0f;
-		max_fov = 15.0f;
+		smooth = 90.0f;
+		max_fov = 12.0f;
 		playStateSound(level + 1);
 		break;
 	default:
