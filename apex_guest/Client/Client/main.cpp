@@ -35,8 +35,8 @@ bool aim_no_recoil = true;
 bool aiming = false; //read
 uint64_t g_Base = 0; //write
 float max_dist = 200.0f * 40.0f; //read
-float smooth = 80.0f;
-float max_fov = 15.0f;
+float smooth = 85.0f;
+float max_fov = 12.0f;
 int bone = 0;
 bool thirdperson = false;
 int spectators = 0; //write
@@ -161,26 +161,26 @@ void CalRecoil(int level)
 	{
 	case 0:
 		aim_no_recoil = false;
-		smooth = 100.0f;
+		smooth = 105.0f;
 		max_fov = 10.0f;
 		playStateSound(level + 1);
 		break;
 	case 1:
-		aim_no_recoil = false;
-		smooth = 95.0f;
+		aim_no_recoil = true;
+		smooth = 105.0f;
 		max_fov = 10.0f;
 		playStateSound(level + 1);
 		break;
 	case 2:
 		aim_no_recoil = true;
-		smooth = 95.0f;
+		smooth = 100.0f;
 		max_fov = 10.0f;
 		playStateSound(level + 1);
 		break;
 	case 3:
 		aim_no_recoil = true;
-		smooth = 90.0f;
-		max_fov = 12.0f;
+		smooth = 95.0f;
+		max_fov = 10.0f;
 		playStateSound(level + 1);
 		break;
 	default:
