@@ -42,7 +42,7 @@
     #define OFFSET_BULLET_SPEED         0x1ed0 //CWeaponX!m_flProjectileSpeed
     #define OFFSET_BULLET_SCALE         0x1ed8 //CWeaponX!m_flProjectileScale
     #define OFFSET_ZOOM_FOV             0x1698 + 0xb8 //m_playerData + m_curZoomFOV
-    #define OFFSET_AMMO                 0x1624 //m_ammoInClip
+    #define OFFSET_AMMO                 0x1650 //m_ammoInClip
 
     #define OFFSET_ITEM_GLOW            0x2c0 //m_highlightFunctionBits
 
@@ -93,7 +93,7 @@
     #define OFFSET_BULLET_SPEED         0x1ed0 //CWeaponX!m_flProjectileSpeed
     #define OFFSET_BULLET_SCALE         0x1ed8 //CWeaponX!m_flProjectileScale
     #define OFFSET_ZOOM_FOV             0x1698 + 0xb8 //m_playerData + m_curZoomFOV
-    #define OFFSET_AMMO                 0x1624 //m_ammoInClip
+    #define OFFSET_AMMO                 0x1650 //m_ammoInClip
 
     #define OFFSET_ITEM_GLOW            0x2c0 //m_highlightFunctionBits
 
