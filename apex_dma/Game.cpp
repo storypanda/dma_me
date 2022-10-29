@@ -4,6 +4,7 @@ extern Memory apex_mem;
 
 extern bool firing_range;
 float smooth = 12.0f;
+float aggressive_smooth = 90.0f;
 bool aim_no_recoil = true;
 int bone = 2;
 
@@ -281,7 +282,7 @@ float CalculateFov(Entity& from, Entity& target)
 	return Math::GetFov(ViewAngles, Angle);
 }
 
-QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
+QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov, bool aggressive_aim)
 {
 	Entity target = getEntity(t);
 	if(firing_range)
@@ -358,7 +359,7 @@ QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
 
 	Math::NormalizeAngles(Delta);
 
-	QAngle SmoothedAngles = ViewAngles + Delta/smooth;
+	QAngle SmoothedAngles = aggressive_aim ? (ViewAngles + Delta / aggressive_smooth) :(ViewAngles + Delta/smooth);
 	return SmoothedAngles;
 }
 

@@ -29,6 +29,8 @@ bool player_glow = false;
 extern bool aim_no_recoil;
 bool aiming = false;
 extern float smooth;
+float aggressive_dist_threshold = 200.0f;
+bool aggressive_aim = false;
 extern int bone;
 bool thirdperson = false;
 bool chargerifle = false;
@@ -150,6 +152,7 @@ void ProcessPlayer(Entity& LPlayer, Entity& target, uint64_t entitylist, int ind
 	Vector LocalPlayerPosition = LPlayer.getPosition();
 	float dist = LocalPlayerPosition.DistTo(EntityPosition);
 	if (dist > max_dist) return;
+	aggressive_aim = dist < aggressive_dist_threshold ? true : false;
 
 	if(!firing_range)
 		if (entity_team < 0 || entity_team>50 || entity_team == team_player) return;
@@ -620,7 +623,7 @@ static void AimbotLoop()
 				apex_mem.Read<uint64_t>(g_Base + OFFSET_LOCAL_ENT, LocalPlayer);
 				if (LocalPlayer == 0) continue;
 				Entity LPlayer = getEntity(LocalPlayer);
-				QAngle Angles = CalculateBestBoneAim(LPlayer, aimentity, max_fov);
+				QAngle Angles = CalculateBestBoneAim(LPlayer, aimentity, max_fov, aggressive_aim);
 				if (Angles.x == 0 && Angles.y == 0)
 				{
 					lock=false;
