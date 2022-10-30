@@ -5,6 +5,7 @@ extern Memory apex_mem;
 extern bool firing_range;
 float smooth = 12.0f;
 float aggressive_smooth = 90.0f;
+float aggressive_aim_threshold = 200.0f;
 bool aim_no_recoil = true;
 int bone = 2;
 
@@ -282,7 +283,7 @@ float CalculateFov(Entity& from, Entity& target)
 	return Math::GetFov(ViewAngles, Angle);
 }
 
-QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov, bool aggressive_aim)
+QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
 {
 	Entity target = getEntity(t);
 	if(firing_range)
@@ -302,6 +303,8 @@ QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov, bool aggre
 	
 	Vector LocalCamera = from.GetCamPos();
 	Vector TargetBonePosition = target.getBonePositionByHitbox(bone);
+	Vector LocalBonePosition = from.getBonePosition(bone);
+	float bone_dist = TargetBonePosition.DistTo(LocalBonePosition);
 	QAngle CalculatedAngles = QAngle(0, 0, 0);
 	
 	WeaponXEntity curweap = WeaponXEntity();
@@ -359,7 +362,8 @@ QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov, bool aggre
 
 	Math::NormalizeAngles(Delta);
 
-	QAngle SmoothedAngles = aggressive_aim ? (ViewAngles + Delta / aggressive_smooth) :(ViewAngles + Delta/smooth);
+	QAngle SmoothedAngles = bone_dist < aggressive_aim_threshold ? (ViewAngles + Delta / aggressive_smooth) :(ViewAngles + Delta/smooth);
+	printf("bone_dist: %f\n", &bone_dist);
 	return SmoothedAngles;
 }
 
