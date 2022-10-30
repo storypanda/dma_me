@@ -363,13 +363,13 @@ QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
 	}
 
 	Math::NormalizeAngles(Delta);
-
+	QAngle SmoothedAngles;
 	if (bone_dist < extreme_aim_threshold)
-		QAngle SmoothedAngles = ViewAngles + Delta / extreme_smooth;
+		SmoothedAngles = ViewAngles + Delta / extreme_smooth;
 	else if (bone_dist < aggressive_aim_threshold)
-		QAngle SmoothedAngles = ViewAngles + Delta / aggressive_smooth;
+		SmoothedAngles = ViewAngles + Delta / aggressive_smooth;
 	else
-		QAngle SmoothedAngles = ViewAngles + Delta/smooth;
+		SmoothedAngles = ViewAngles + Delta/smooth;
 	printf("bone_dist: %f\n", &bone_dist);
 	return SmoothedAngles;
 }
