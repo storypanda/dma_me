@@ -257,12 +257,15 @@ int main(int argc, char** argv)
 			{
 			case 0:
 				aim = 1;
+				playStateSound(aim + 1);
 				break;
 			case 1:
 				aim = 2;
+				playStateSound(aim + 1);
 				break;
 			case 2:
 				aim = 0;
+				playStateSound(aim + 1);
 				break;
 			default:
 				break;
