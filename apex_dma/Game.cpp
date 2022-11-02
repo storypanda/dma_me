@@ -368,7 +368,10 @@ QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
 	if (bone_dist < extreme_aim_threshold)
 		SmoothedAngles = ViewAngles + Delta / extreme_smooth;
 	else if (bone_dist < aggressive_aim_threshold)
-		SmoothedAngles = ViewAngles + Delta / aggressive_smooth;
+	{
+		float ratio_smooth = (bone_dist - extreme_aim_threshold) / (aggressive_aim_threshold - extreme_aim_threshold) * (aggressive_smooth - extreme_smooth) + extreme_smooth;
+		SmoothedAngles = ViewAngles + Delta / ratio_smooth;
+	}
 	else
 		SmoothedAngles = ViewAngles + Delta/smooth;
 	printf("bone_dist: %f\n", &bone_dist);
