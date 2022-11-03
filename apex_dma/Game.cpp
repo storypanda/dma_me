@@ -4,7 +4,7 @@ extern Memory apex_mem;
 
 extern bool firing_range;
 float smooth = 12.0f;
-float aggressive_smooth = 90.0f;
+float aggressive_smooth = 99.0f;
 float aggressive_aim_threshold = 200.0f;
 float extreme_aim_threshold = 20.0f;
 float extreme_smooth = 80.0f;
@@ -374,7 +374,6 @@ QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
 	}
 	else
 		SmoothedAngles = ViewAngles + Delta/smooth;
-	printf("bone_dist: %f\n", &bone_dist);
 	return SmoothedAngles;
 }
 
