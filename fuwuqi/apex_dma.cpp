@@ -360,7 +360,7 @@ void DoActions()
 						apex_mem.Write<int>(LocalPlayer + OFFSET_IN_FORWARD + 8, static_cast<int>(4));
 					}
 					tapstrafe++;
-					if (tapstrafe >= 10)
+					if (tapstrafe >= 20)
 					{
 						tapstrafe = -1;
 						//hold forward key
@@ -376,7 +376,7 @@ void DoActions()
 					if (tapstrafe == -1)
 						apex_mem.Write<int>(LocalPlayer + OFFSET_IN_FORWARD + 8, static_cast<int>(5));
 					tapstrafe--;
-					if (tapstrafe <= -5)
+					if (tapstrafe <= -10)
 					{
 						tapstrafe = 0;
 					}
@@ -681,8 +681,8 @@ static void set_vars(uint64_t add_addr)
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t)*19, shooting_addr);
 	uint64_t skinchanger_addr = 0;
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 20, skinchanger_addr);
-	//uint64_t tapstrafe_addr = 0;
-	//client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 21, tapstrafe_addr);
+	// uint64_t tapstrafe_addr = 0;
+	// client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 21, tapstrafe_addr);
 	
 
 	uint32_t check = 0;
