@@ -5,11 +5,11 @@
 
 #if VERSION == STEAM
 
-#define OFFSET_ENTITYLIST 0x1d10e18 //cl_entitylist
-#define OFFSET_LOCAL_ENT 0x20c20f8 //LocalPlayer
-#define OFFSET_NAME_LIST 0xbfffc80 //NameList
-#define OFFSET_THIRDPERSON 0x01cf5a20 + 0x6c //thirdperson_override + 0x6c
-#define OFFSET_TIMESCALE 0x016ab170 //host_timescale
+#define OFFSET_ENTITYLIST 0x1d10ef8 //cl_entitylist
+#define OFFSET_LOCAL_ENT 0x20c21d0 //LocalPlayer
+#define OFFSET_NAME_LIST 0xbfffd00 //NameList
+#define OFFSET_THIRDPERSON 0x01cf5a60 + 0x6c //thirdperson_override + 0x6c
+#define OFFSET_TIMESCALE 0x016ab1a0 //host_timescale
 
 #define OFFSET_TEAM 0x044c //m_iTeamNum
 #define OFFSET_HEALTH 0x043c //m_iHealth
@@ -42,7 +42,7 @@
 #define OFFSET_OBSERVING_TARGET 0x34e0 //m_hObserverTarget
 
 #define OFFSET_MATRIX 0x11a210 //ViewMatrix
-#define OFFSET_RENDER 0x7870390 //ViewRender
+#define OFFSET_RENDER 0x7870410 //ViewRender
 
 #define OFFSET_WEAPON 0x1a1c //m_latestPrimaryWeapons
 #define OFFSET_BULLET_SPEED 0x1f48 //CWeaponX!m_flProjectileSpeed
@@ -62,7 +62,7 @@
 #define OFFSET_GLOW_THROUGH_WALLS 0x3d0 //2 = enabled, 5 = disabled
 #define OFFSET_SKIN			        0x0e54 //m_nSkin
 #define OFFSET_m_fFlags             0x0098 //player is in air
-#define OFFSET_IN_FORWARD           0x07872be0 //player is in forward
+#define OFFSET_IN_FORWARD           0x07872c60 //player is in forward
 
 #elif VERSION == ORIGIN
 
