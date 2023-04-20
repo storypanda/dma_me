@@ -353,15 +353,16 @@ QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
 	QAngle ViewAngles = from.GetViewAngles();
 	QAngle SwayAngles = from.GetSwayAngles();
 	//remove sway and recoil
-	if(aim_no_recoil)
-		CalculatedAngles-=SwayAngles-ViewAngles;
-	Math::NormalizeAngles(CalculatedAngles);
-	QAngle Delta = CalculatedAngles - ViewAngles;
+	
 	double fov = Math::GetFov(SwayAngles, CalculatedAngles);
 	if (fov > max_fov)
 	{
 		return QAngle(0, 0, 0);
 	}
+	if(aim_no_recoil)
+		CalculatedAngles-=SwayAngles-ViewAngles;
+	Math::NormalizeAngles(CalculatedAngles);
+	QAngle Delta = CalculatedAngles - ViewAngles;
 
 	Math::NormalizeAngles(Delta);
 	QAngle SmoothedAngles;
@@ -369,8 +370,9 @@ QAngle CalculateBestBoneAim(Entity& from, uintptr_t t, float max_fov)
 		SmoothedAngles = ViewAngles + Delta / extreme_smooth;
 	else if (bone_dist < aggressive_aim_threshold)
 	{
-		float ratio_smooth = (bone_dist - extreme_aim_threshold) / (aggressive_aim_threshold - extreme_aim_threshold) * (aggressive_smooth - extreme_smooth) + extreme_smooth;
-		SmoothedAngles = ViewAngles + Delta / ratio_smooth;
+		// float ratio_smooth = (bone_dist - extreme_aim_threshold) / (aggressive_aim_threshold - extreme_aim_threshold) * (aggressive_smooth - extreme_smooth) + extreme_smooth;
+		// SmoothedAngles = ViewAngles + Delta / ratio_smooth;
+		SmoothedAngles = ViewAngles + Delta / aggressive_smooth;
 	}
 	else
 		SmoothedAngles = ViewAngles + Delta/smooth;

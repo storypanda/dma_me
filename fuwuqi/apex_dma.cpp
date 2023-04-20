@@ -29,6 +29,11 @@ bool player_glow = false;
 extern bool aim_no_recoil;
 bool aiming = false;
 extern float smooth;
+extern float aggressive_smooth;
+extern float aggressive_aim_threshold;
+extern float extreme_smooth;
+extern float extreme_aim_threshold;
+extern float smooth;
 extern int bone;
 bool thirdperson = false;
 bool chargerifle = false;
@@ -681,6 +686,15 @@ static void set_vars(uint64_t add_addr)
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t)*19, shooting_addr);
 	uint64_t skinchanger_addr = 0;
 	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 20, skinchanger_addr);
+	uint64_t aggressive_smooth_addr = 0;
+	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 21, aggressive_smooth_addr);
+	uint64_t aggressive_aim_threshold_addr = 0;
+	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 22, aggressive_aim_threshold_addr);
+	uint64_t extreme_smooth_addr = 0;
+	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 23, extreme_smooth_addr);
+	uint64_t extreme_aim_threshold_addr = 0;
+	client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 24, extreme_aim_threshold_addr);
+	
 	// uint64_t tapstrafe_addr = 0;
 	// client_mem.Read<uint64_t>(add_addr + sizeof(uint64_t) * 21, tapstrafe_addr);
 	
@@ -725,8 +739,12 @@ static void set_vars(uint64_t add_addr)
 			client_mem.Read<bool>(shooting_addr, shooting);
 			client_mem.Read<bool>(chargerifle_addr, chargerifle);
 			client_mem.Read<int>(skinchanger_addr, skinchanger);
-			//client_mem.Read<int>(tapstrafe_addr, tapstrafe);
-
+			// dynamic smooth
+			client_mem.Read<float>(aggressive_smooth_addr, aggressive_smooth);
+			client_mem.Read<float>(aggressive_aim_threshold_addr, aggressive_aim_threshold);
+			client_mem.Read<float>(extreme_smooth_addr, extreme_smooth);
+			client_mem.Read<float>(extreme_aim_threshold_addr, extreme_aim_threshold);
+			
 			if(esp && next)
 			{
 				if(valid)

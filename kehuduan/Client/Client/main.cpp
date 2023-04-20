@@ -35,9 +35,13 @@ bool aim_no_recoil = true;
 bool aiming = false; //read
 uint64_t g_Base = 0; //write
 float max_dist = 200.0f * 40.0f; //read
-float smooth = 114.0f;
-float max_fov = 19.0f;
-int bone = 0;
+float smooth = 103.0f;
+float aggressive_smooth = 98.0f;
+float aggressive_aim_threshold = 120.0f;
+float extreme_aim_threshold = 20.0f;
+float extreme_smooth = 95.0f;
+float max_fov = 17.0f;
+int bone = 2;
 bool thirdperson = false;
 int spectators = 0; //write
 int allied_spectators = 0; //write
@@ -51,7 +55,9 @@ bool next = false; //read write
 bool recoil = false;
 int recoil_level = 0;
 
-uint64_t add[21];
+uint64_t add[25];
+
+int boneArray[10] = { 0, 0, 0, 1, 1, 1, 2, 2, 2, 2 };
 
 bool k_f5 = 0;
 bool k_f6 = 0;
@@ -128,8 +134,7 @@ void Overlay::RenderEsp()
 	}
 }
 void randomBone() {
-	int boneArray[2] = { 1, 2 };
-	int randVal = rand() % 2;
+	int randVal = rand() % 10;
 	bone = boneArray[randVal];
 	Sleep(1250);
 }
@@ -160,27 +165,43 @@ void CalRecoil(int level)
 	switch (level)
 	{
 	case 0:
-		aim_no_recoil = true;
-		smooth = 110.0f;
-		max_fov = 20.0f;
+		aim_no_recoil = false;
+		smooth = 120.0f;
+		max_fov = 17.0f;
+		aggressive_smooth = 117.0f;
+		aggressive_aim_threshold = 100.0f;
+		extreme_smooth = 110.0f;
+		extreme_aim_threshold = 20.0f;
 		playStateSound(level + 1);
 		break;
 	case 1:
-		aim_no_recoil = true;
-		smooth = 115.0f;
+		aim_no_recoil = false;
+		smooth = 117.0f;
 		max_fov = 17.0f;
+		aggressive_smooth = 114.0f;
+		aggressive_aim_threshold = 100.0f;
+		extreme_smooth = 108.0f;
+		extreme_aim_threshold = 20.0f;
 		playStateSound(level + 1);
 		break;
 	case 2:
 		aim_no_recoil = true;
-		smooth = 120.0f;
-		max_fov = 15.0f;
+		smooth = 103.0f;
+		max_fov = 17.0f;
+		aggressive_smooth = 100.0f;
+		aggressive_aim_threshold = 120.0f;
+		extreme_smooth = 95.0f;
+		extreme_aim_threshold = 30.0f;
 		playStateSound(level + 1);
 		break;
 	case 3:
-		aim_no_recoil = false;
-		smooth = 125.0f;
-		max_fov = 15.0f;
+		aim_no_recoil = true;
+		smooth = 100.0f;
+		max_fov = 17.0f;
+		aggressive_smooth = 95.0f;
+		aggressive_aim_threshold = 130.0f;
+		extreme_smooth = 90.0f;
+		extreme_aim_threshold = 40.0f;
 		playStateSound(level + 1);
 		break;
 	default:
@@ -210,6 +231,10 @@ int main(int argc, char** argv)
 	add[18] = (uintptr_t)&chargerifle;
 	add[19] = (uintptr_t)&shooting;
 	add[20] = (uintptr_t)&skinchanger;
+	add[21] = (uintptr_t)&aggressive_smooth;
+	add[22] = (uintptr_t)&aggressive_aim_threshold;
+	add[23] = (uintptr_t)&extreme_smooth;
+	add[24] = (uintptr_t)&extreme_aim_threshold;
 
 
 	printf(XorStr("add offset: 0x%I64x\n"), (uint64_t)&add[0] - (uint64_t)GetModuleHandle(NULL));
@@ -257,15 +282,15 @@ int main(int argc, char** argv)
 			{
 			case 0:
 				aim = 1;
-				playStateSound(aim + 1);
+				
 				break;
 			case 1:
 				aim = 2;
-				playStateSound(aim + 1);
+				
 				break;
 			case 2:
 				aim = 0;
-				playStateSound(aim + 1);
+				
 				break;
 			default:
 				break;
@@ -315,19 +340,19 @@ int main(int argc, char** argv)
 			k_f8 = 0;
 		}
 
-		if (IsKeyDown(VK_LEFT))
-		{
-			if (max_dist > 100.0f * 40.0f)
-				max_dist -= 50.0f * 40.0f;
-			std::this_thread::sleep_for(std::chrono::milliseconds(130));
-		}
+		// if (IsKeyDown(VK_LEFT))
+		// {
+		// 	if (max_dist > 100.0f * 40.0f)
+		// 		max_dist -= 50.0f * 40.0f;
+		// 	std::this_thread::sleep_for(std::chrono::milliseconds(130));
+		// }
 
-		if (IsKeyDown(VK_RIGHT))
-		{
-			if (max_dist < 800.0f * 40.0f)
-				max_dist += 50.0f * 40.0f;
-			std::this_thread::sleep_for(std::chrono::milliseconds(130));
-		}
+		// if (IsKeyDown(VK_RIGHT))
+		// {
+		// 	if (max_dist < 800.0f * 40.0f)
+		// 		max_dist += 50.0f * 40.0f;
+		// 	std::this_thread::sleep_for(std::chrono::milliseconds(130));
+		// }
 
 		if (IsKeyDown(aim_key))
 		{
@@ -337,10 +362,10 @@ int main(int argc, char** argv)
 		else
 			aiming = false;
 
-		if (IsKeyDown(shoot_key))
-			shooting = true;
-		else
-			shooting = false;
+		// if (IsKeyDown(shoot_key))
+		// 	shooting = true;
+		// else
+		// 	shooting = false;
 	}
 	ready = false;
 	ov1.Clear();
