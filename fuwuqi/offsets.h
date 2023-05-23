@@ -5,11 +5,11 @@
 
 #if VERSION == STEAM
 
-#define OFFSET_ENTITYLIST 0x1d87e88 //cl_entitylist
-#define OFFSET_LOCAL_ENT 0x02139488 //LocalPlayer 0x02139480 + 0x8
-#define OFFSET_NAME_LIST 0xbd27ba0 //NameList
-#define OFFSET_THIRDPERSON 0x01d17600 + 0x6c //thirdperson_override + 0x6c
-#define OFFSET_TIMESCALE 0x016ccb40 //host_timescale
+#define OFFSET_ENTITYLIST 0x1d88fc8 //cl_entitylist
+#define OFFSET_LOCAL_ENT 0x0213a5c8 //LocalPlayer 0x02139480 + 0x8
+#define OFFSET_NAME_LIST 0xbd28ca0 //NameList
+#define OFFSET_THIRDPERSON 0x01d18740 + 0x6c //thirdperson_override + 0x6c
+#define OFFSET_TIMESCALE 0x016cdc80 //host_timescale
 
 #define OFFSET_TEAM 0x044c //m_iTeamNum
 #define OFFSET_HEALTH 0x043c //m_iHealth
@@ -42,11 +42,11 @@
 #define OFFSET_OBSERVING_TARGET 0x34f8 //m_hObserverTarget
 
 #define OFFSET_MATRIX 0x11a350 //ViewMatrix
-#define OFFSET_RENDER 0x7400bd0 //ViewRender
+#define OFFSET_RENDER 0x7401cd0 //ViewRender
 
 #define OFFSET_WEAPON 0x1a24 //m_latestPrimaryWeapons
-#define OFFSET_BULLET_SPEED 0x1A88 + 0x04c8 //CWeaponX!m_flProjectileSpeed
-#define OFFSET_BULLET_SCALE 0x1A88 + 0x04d0 //CWeaponX!m_flProjectileScale
+#define OFFSET_BULLET_SPEED 0x1f50 //CWeaponX!m_flProjectileSpeed
+#define OFFSET_BULLET_SCALE 0x1f58 //CWeaponX!m_flProjectileScale
 #define OFFSET_ZOOM_FOV 0x16c0 + 0xb8 //m_playerData + m_curZoomFOV
 #define OFFSET_AMMO 0x1644 //m_ammoInClip first offset 
 
@@ -62,7 +62,7 @@
 #define OFFSET_GLOW_THROUGH_WALLS 0x3d0 //2 = enabled, 5 = disabled
 #define OFFSET_SKIN			        0x0e54 //m_nSkin
 #define OFFSET_m_fFlags             0x0098 //player is in air
-#define OFFSET_IN_FORWARD           0x07403420 //player is in forward
+#define OFFSET_IN_FORWARD           0x07404520 //player is in forward
 
 #elif VERSION == ORIGIN
 
